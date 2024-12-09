@@ -1,0 +1,47 @@
+header{
+    display: flex;
+    margin:40px;
+    padding: 30px;
+    justify-content: space-around;
+    border: 5px solid rgb(42, 198, 245);
+    border-radius: 20px;
+    font-size: 2rem;
+    font-weight: 400px;
+    background-color: antiquewhite;
+    opacity: 80%;
+    
+}
+#homeBut{
+    font-weight: bold;
+}
+
+.webName{
+   
+   
+}
+.navLinks{
+    display: flex;
+    justify-content: space-around;
+    width: 70%;
+    align-items: center; 
+    
+}
+.hover:hover{
+    color: purple;
+    transform: translateY(-5px);
+   cursor: pointer;
+}
+
+#loginButton{
+    border: 5px solid gold;
+    padding: 10px 40px;
+    border-radius: 0px 20px;
+    
+}
+#loginButton:hover{
+    transition: 1s;
+    border-radius: 50px;
+    
+    color: purple;
+
+}
