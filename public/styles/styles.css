@@ -1,0 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: normal;
+ background-image: url("/images/backImage.jpg");
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-attachment: fixed;;
+  padding:5px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: 
+  'header'
+  'main'
+  'footer';
+}
+a{
+  text-decoration: none;
+  color: black;
+}
