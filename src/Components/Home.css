@@ -1,0 +1,212 @@
+/* Home Component - Section First */
+.sectionFirst {
+    padding: 9rem 0% 20rem;
+    position: relative;
+    color: var(--global-color-4);
+}
+
+.sectionFirst::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--global-color-2);
+    z-index: -1;
+    opacity: .7;
+}
+
+.sectionFirst::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/backgroundimg.jpg");
+    z-index: -1;
+    opacity: .7;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.sectionFirst .frontPage {
+    padding: 0 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 60%;
+}
+
+.sectionFirst .frontPage .address {
+    color: var(--global-color-0);
+    font-size: 25px;
+    line-height: 1.2em;
+    font-family: var(--font-02);
+}
+
+.sectionFirst .frontPage .heading {
+    font-size: 3.24rem;
+    font-weight: 400;
+    font-family: var(--font-02);
+}
+
+.sectionFirst .frontPage .btn {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.sectionFirst .frontPage .btn a {
+    border-radius: 7px;
+    padding: 17px 30px;
+    text-decoration: none;
+}
+
+.sectionFirst .frontPage .btn a:nth-child(1) {
+    border: 1px solid var(--global-color-0);
+    background-color: var(--global-color-0);
+    color: var(--global-color-4);
+    transition: all .4s ease;
+}
+
+.sectionFirst .frontPage .btn a:nth-child(1):hover {
+    border: 1px solid var(--global-color-1);
+    background-color: var(--global-color-1);
+}
+
+.sectionFirst .frontPage .btn a:nth-child(2) {
+    border: 1px solid var(--global-color-0);
+    background-color: var(--global-color-4);
+    color: var(--global-color-0);
+    transition: all .4s ease;
+}
+
+.sectionFirst .frontPage .btn a:nth-child(2):hover {
+    border: 1px solid var(--global-color-4);
+    background-color: var(--global-color-1);
+    color: var(--global-color-4);
+}
+
+
+/* Home Component - Section Second */
+.sectionSecond {
+    padding: 0 2%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    align-items: center;
+}
+
+.sectionSecond .fourIMG {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    height: 100%;
+    gap: 1rem;
+    padding: 4rem 1rem 12rem;
+}
+
+.sectionSecond .fourIMG img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: all .4s ease;
+}
+
+.sectionSecond .fourIMG img:hover {
+    transform: scale(1.1);
+}
+
+.sectionSecond .fourIMG img:nth-child(2n+1) {
+    margin-top: 4rem;
+}
+
+.sectionSecond .textInfo {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sectionSecond .textInfo .greet {
+    color: var(--global-color-0);
+    font-family: var(--font-02);
+    font-size: 1.5rem;
+    line-height: 1.2em;
+}
+
+.sectionSecond .textInfo .title {
+    font-size: 2.5rem;
+    font-weight: 400;
+    font-family: var(--font-02);
+}
+
+.sectionSecond .textInfo .btn {
+    border: 1px solid var(--global-color-0);
+    width: fit-content;
+    border-radius: 7px;
+    padding: 17px 60px;
+    text-decoration: none;
+    background-color: var(--global-color-1);
+    color: var(--global-color-4);
+    font-weight: 400;
+    transition: all .4s ease;
+}
+
+.sectionSecond .textInfo .btn:hover {
+    background-color: var(--global-color-0);
+    border: 1px solid var(--global-color-0);
+}
+
+/* Home Component - Section Three */
+.sectionThree {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem 2%;
+    background-color: #8484840a;
+}
+
+.sectionThree>h2 {
+    font-size: 2.5rem;
+    font-family: var(--font-02);
+    color: var(--global-color-0);
+    text-align: center;
+}
+
+.sectionThree>p {
+    text-align: center;
+}
+
+.sectionThree .servicesBox {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(100px, 280px));
+    gap: 2rem;
+    padding: 1rem;
+    justify-content: center;
+}
+
+.sectionThree .servicesBox .box {
+    padding: 3rem 1rem 1rem;
+    box-shadow: 0 0 8px 3px #eeeeee;
+    background-color: #fff;
+    border-radius: 7px;
+}
+
+.sectionThree .servicesBox .box h2 {
+    font-family: var(--font-02);
+    line-height: 1.2em;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.sectionThree .servicesBox .box p {
+    font-family: var(--font-02);
+    line-height: 24px;
+}

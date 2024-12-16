@@ -1,100 +1,227 @@
+/* Original CSS (untouched) */
+
+
 .login-container {
-    max-width: 400px;
-    animation: fadeIn 1.5s ease-in-out; /* Fade-in animation for the container */
-    display: flex;
-    justify-content: center;
-    margin: auto;
-  }
+  margin-top: 100px ;
+  margin-left:auto;
+  margin-right:auto;
+  width: 500px;
+  animation: fadeIn 1.5s ease-in-out;
+  display: flex;
+  flex-direction: column;
   
-  .login-box {
-    
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    padding: 30px;
-    position: relative;
-    text-align: center;
-    overflow: hidden;
-    z-index: 1; /* Ensure it remains above the ::before pseudo-element */
+ 
+}
+
+.login-box {
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  z-index: 1;
+}
+
+.login-box h1 {
+  font-size: 1.8rem;
+  /* font-weight: bold; */
+  color: #b0d8ff;
+  margin-bottom: 15px;
+  font-family: "Faculty Glyphic", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.login-box p {
+  color: #50c9ee;
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  font-family: "Faculty Glyphic", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.login-name{
+  font-family: "Srisakdi", system-ui;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.role-button, .signup-button {
+  width: 45%;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  position: relative;
+  transition: all 0.3s ease;
+  animation: none;
+  font-family: "Poppins", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.role-button:hover, .signup-button:hover {
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  box-shadow: 0 0 15px rgba(106, 17, 203, 0.6);
+  animation: pulse 1.5s infinite;
+}
+
+.login-box::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -100%;
+  left: -100%;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 50%;
+  animation: rotateGlow 5s linear infinite;
+  z-index: -1;
+}
+
+/* Input Field Styles */
+.login-box input[type="email"],
+.login-box input[type="password"] {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid black; /* Default border */
+  border-radius: 5px;
+  outline: none;
+  font-size: 0.8rem;
+  font-family: "Poppins", serif;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  animation: slideIn 1s ease;
+}
+
+/* Focus State (When clicking inside) */
+.login-box input[type="email"]:focus,
+.login-box input[type="password"]:focus {
+  border-color: #28a745; /* Green border on focus */
+}
+
+/* Blur State (When leaving the input field) */
+.login-box input[type="email"]:blur,
+.login-box input[type="password"]:blur {
+  border-color: black; /* Reset to black border */
+}
+
+/* Additional CSS for new fields */
+
+/* Container for inline fields */
+.inline-fields {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.inline-fields .form-control {
+  width: 48%;
+  border: none;
+  border-bottom: 1px solid black; /* Default border */
+  border-radius: 5px;
+  outline: none;
+  font-size: 0.8rem;
+  font-family: "Poppins", serif;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  animation: slideIn 1s ease;
+}
+
+.inline-fields .form-control:focus {
+  border-color: #28a745; /* Green border on focus */
+}
+
+.inline-fields .form-control:blur {
+  border-color: black; /* Reset to black border */
+}
+
+/* Dropdown Styles */
+.login-box select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid black; /* Default border */
+  border-radius: 5px;
+  outline: none;
+  font-size: 0.8rem;
+  font-family: "Poppins", serif;
+  padding: 5px 10px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  animation: slideIn 1s ease;
+}
+
+.login-box select:focus {
+  border-color: #28a745; /* Green border on focus */
+  background-color: #e9ffe9;
+}
+
+/* Contact Field */
+.login-box input[type="text"] {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid black; /* Default border */
+  border-radius: 5px;
+  outline: none;
+  font-size: 0.8rem;
+  font-family: "Poppins", serif;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  animation: slideIn 1s ease;
+}
+
+.login-box input[type="text"]:focus {
+  border-color: #28a745; /* Green border on focus */
+}
+
+/* Animations for new fields */
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
   }
-  
-  .login-box h1 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #2d3e50;
-    margin-bottom: 15px;
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
-  
-  .login-box p {
-    color: #8a9ea4;
-    font-size: 0.9rem;
-    margin-bottom: 25px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
-  
-  .role-button {
-    width: 45%;
-    padding: 10px;
-    font-size: 0.9rem;
-    border-radius: 20px;
-    border: none;
-    font-weight: bold;
-    position: relative;
-    transition: all 0.3s ease; /* Smooth scaling effect */
-    animation: none; /* Default animation state */
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .role-button:hover {
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: white;
-    box-shadow: 0 0 15px rgba(106, 17, 203, 0.6); /* Glow effect */
-    animation: pulse 1.5s infinite; /* Pulse animation on hover */
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .login-box::before {
-    content: "";
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -100%;
-    left: -100%;
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 50%;
-    animation: rotateGlow 5s linear infinite; /* Background glow animation */
-    z-index: -1; /* Place it behind the .login-box content */
+  100% {
+    transform: rotate(360deg);
   }
-  
-  /* Animations */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
   }
-  
-  @keyframes rotateGlow {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(106, 17, 203, 0.6);
   }
-  
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-      box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
-    }
-    50% {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px rgba(106, 17, 203, 0.6);
-    }
-    100% {
-      transform: scale(1);
-      box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
-    }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
   }
+}

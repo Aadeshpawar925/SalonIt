@@ -6,14 +6,13 @@ import "./Login.css";
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const navigate = useNavigate(); // React Router navigation hook
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let valid = true;
     let emailError = "";
     let passwordError = "";
 
-    // Email validation
     if (!formData.email) {
       emailError = "Email is required";
       valid = false;
@@ -22,7 +21,6 @@ const Login = () => {
       valid = false;
     }
 
-    // Password validation
     if (!formData.password) {
       passwordError = "Password is required";
       valid = false;
@@ -38,12 +36,16 @@ const Login = () => {
     return valid;
   };
 
-  const handleRoleNavigation = (role) => {
+  const handleLogin = (role) => {
     if (validateForm()) {
+      // Set login status in localStorage
+      localStorage.setItem("userLoggedIn", true);
+
+      // Redirect to appropriate role page
       if (role === "salon") {
-        navigate("/salondashboard");
+        navigate("/"); // Adjust destination as needed
       } else if (role === "customer") {
-        navigate("/recommended");
+        navigate("/"); // Adjust destination as needed
       }
     }
   };
@@ -51,7 +53,7 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" }); // Reset error for the current field
+    setErrors({ ...errors, [name]: "" });
   };
 
   return (
@@ -61,7 +63,7 @@ const Login = () => {
         <p className="text-center">SIGN-IN</p>
         <Form>
           <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label className="login-name">Email address</Form.Label>
             <Form.Control
               type="email"
               placeholder="Enter email"
@@ -76,7 +78,7 @@ const Login = () => {
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
+            <Form.Label className="login-name">Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Enter password"
@@ -94,20 +96,28 @@ const Login = () => {
             <Button
               variant="primary"
               className="role-button"
-              onClick={() => handleRoleNavigation("salon")}
+              onClick={() => handleLogin("customer")}
             >
-              Salon Owner login
+              Customer Login
             </Button>
             <Button
               variant="success"
               className="role-button"
-              onClick={() => handleRoleNavigation("customer")}
+              onClick={() => handleLogin("salon")}
             >
-              Customer login
+              Salon Owner Login
             </Button>
           </div>
         </Form>
-        
+        <p className="text-center mt-4">
+          <Button
+            variant="link"
+            className="p-0"
+            onClick={() => navigate("/signup")}
+          >
+            Don't have an account? Sign Up
+          </Button>
+        </p>
       </div>
     </Container>
   );
