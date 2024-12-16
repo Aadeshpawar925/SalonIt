@@ -1,0 +1,110 @@
+/* Booking.css */
+
+.booking-container {
+  padding: 50px;
+  margin-top: 100px;
+  font-family: Arial, sans-serif;
+}
+
+.booking-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+}
+
+.booking-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.booking-card,
+.payment-card {
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.selected-services-title {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.services-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.service-item {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.service-price {
+  color: #007bff;
+}
+
+.total-price {
+  margin-top: 20px;
+}
+
+.total-price h4 {
+  font-size: 1.2rem;
+}
+
+.price {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #28a745;
+}
+
+.payment-card {
+  padding: 20px;
+}
+
+.payment-option {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.payment-label {
+  margin-left: 10px;
+  font-size: 1.1rem;
+}
+
+.btn-confirm {
+  width: 100%;
+  font-size: 1.2rem;
+  background-color: #28a745;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-confirm:hover {
+  background-color: #218838;
+}
+
+.btn-back {
+  background-color: #ffc107;
+  color: black;
+  border-radius: 8px;
+}
+
+.error-message {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.error-message h2 {
+  font-size: 2rem;
+  color: red;
+}
+
+.error-message .btn-back {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}

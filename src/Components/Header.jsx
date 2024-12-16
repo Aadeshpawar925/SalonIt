@@ -1,21 +1,25 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import "./Header.css"
 
-
-export default function Header(props){
-    return(
-        <header>
-            <div className="webName">
-                <Link to="/" className="homeLink">
-                <img className="websiteLogo" src="/images/weblogo.gif"/>
-                </Link>
-            </div>
-            <div className="navLinks">
-                <Link className="hover" id="homeBut " to="/">Home</Link>
-                <Link className="hover" id="aboutBut " style={{textDecoration:"underline" }} to="/aboutUs">About Us</Link>
-                <Link  id="loginButton" to="/login">Login</Link>
-            </div>
-        </header>
-    )
+export default function Header() {
+    return (
+        <>
+            <header>
+                <a href="/" className="logo">
+                    <img src="/img/weblogo.gif" alt="websiteLogo" />
+                </a>
+                <div className="menuToggle"></div>
+                <nav>
+                    <ul>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/aboutUs">About</Link></li>
+                        <li><Link to="/services">Services</Link></li>
+                        <li><Link to="/discover-salons" className="discover-button">Discover Salons</Link></li>
+                        <li><Link to="/login" id="NavNum">Login</Link></li>
+                    </ul>
+                </nav>
+            </header>
+        </>
+    );
 }
