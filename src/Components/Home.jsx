@@ -31,7 +31,7 @@ export default function Home() {
                         Find and book appointments at the best salons in your area. Browse by services, customer reviews, and much more. Your next beauty experience is just a click away!
                     </p>
 
-                    <a href="#" className="btn">Browse Salons</a>
+                    <a href="/discover-salons" className="btn">Browse Salons</a>
                 </div>
             </section>
 

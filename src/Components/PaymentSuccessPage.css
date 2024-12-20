@@ -1,0 +1,58 @@
+.payment-success {
+    text-align: center;
+    margin: 100px auto 50px auto;
+    padding: 30px;
+    border: 2px solid #F37254; /* Replace with your website's accent color */
+    border-radius: 15px;
+    max-width: 600px;
+    background: linear-gradient(145deg, #ffffff, #f4f4f4); /* Adds subtle depth to the background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a soft shadow for a modern look */
+    font-family: 'Poppins', sans-serif; /* Replace with your website's font family */
+    color: #333; /* Adjust for text visibility */
+}
+
+.payment-success h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #F37254; /* Match with the primary color */
+    margin-bottom: 15px;
+}
+
+.payment-success p {
+    font-size: 1rem;
+    color: #555; /* Subtle secondary color */
+    line-height: 1.5;
+}
+
+.success-details {
+    margin: 20px 0;
+    font-size: 1.1rem;
+    color: #666; /* Matches the muted secondary text */
+}
+
+.btn-home {
+    background-color: #F37254; /* Replace with your primary button color */
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px; /* Softer button style */
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds depth to the button */
+}
+
+.btn-home:hover {
+    background-color: #e55c40; /* Slightly darker hover effect */
+    transform: translateY(-2px); /* Subtle lift on hover */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhances hover shadow */
+}
+
+.visit-again {
+    margin-top: 20px;
+    font-style: italic;
+    font-size: 1rem;
+    color: #888; /* Adjust to match muted text style */
+}

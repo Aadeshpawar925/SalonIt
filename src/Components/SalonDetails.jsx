@@ -235,95 +235,99 @@ import "./SalonDetails.css"; // Add appropriate CSS for styling
 
 
   
-export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
-  const { id } = useParams(); // Fetch salon ID from URL
-  const navigate = useNavigate();
-
-  const salon = salonDetailsData.find((salon) => salon.id === parseInt(id, 10));
-
-  const [localSelectedServices, setLocalSelectedServices] = useState([]);
-
-  // Toggle service selection
-  const handleServiceSelect = (service) => {
-    setLocalSelectedServices((prevSelected) => {
-      const isAlreadySelected = prevSelected.some((s) => s.name === service.name && s.for === service.for); // Compare by name and category (for)
-      if (isAlreadySelected) {
-        return prevSelected.filter((s) => s.name !== service.name || s.for !== service.for); // Remove service if already selected
-      }
-      return [...prevSelected, service]; // Add service to selected list
-    });
-  };
-
-  // Handle the booking process
-  const handleBookNow = () => {
-    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // Check login status using localStorage
-
-    if (localSelectedServices.length === 0) {
-      alert("Please select at least one service.");
-      return;
-    }
-
-    const totalPrice = localSelectedServices.reduce((sum, service) => sum + parseFloat(service.price.slice(1)), 0); // Remove "$" and sum the prices
-
-    setSelectedServices(localSelectedServices); // Pass selected services to parent state
-    setTotalPrice(totalPrice); // Pass total price to parent state
-
-    if (isLoggedIn) {
-      navigate("/booking", {
-        state: { selectedServices: localSelectedServices, totalPrice }, // Pass services to the booking page
+ 
+  
+  export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
+    const { id } = useParams(); // Fetch salon ID from URL
+    const navigate = useNavigate();
+  
+    const salon = salonDetailsData.find((salon) => salon.id === parseInt(id, 10));
+  
+    const [localSelectedServices, setLocalSelectedServices] = useState([]);
+  
+    // Toggle service selection
+    const handleServiceSelect = (service) => {
+      setLocalSelectedServices((prevSelected) => {
+        const isAlreadySelected = prevSelected.some((s) => s.name === service.name && s.for === service.for); // Compare by name and category (for)
+        if (isAlreadySelected) {
+          return prevSelected.filter((s) => s.name !== service.name || s.for !== service.for); // Remove service if already selected
+        }
+        return [...prevSelected, service]; // Add service to selected list
       });
-    } else {
-      alert("Please log in to proceed with the booking.");
-      navigate("/login"); // Redirect to login page if not logged in
+    };
+  
+    // Handle the booking process
+    const handleBookNow = () => {
+      const isLoggedIn = localStorage.getItem("userLoggedIn") === "true"; // Check login status using localStorage
+  
+      if (localSelectedServices.length === 0) {
+        alert("Please select at least one service.");
+        return;
+      }
+  
+      const totalPrice = localSelectedServices.reduce((sum, service) => sum + parseFloat(service.price.slice(1)), 0); // Remove "$" and sum the prices
+  
+      setSelectedServices(localSelectedServices); // Pass selected services to parent state
+      setTotalPrice(totalPrice); // Pass total price to parent state
+  
+      if (isLoggedIn) {
+        navigate("/booking", {
+          state: { selectedServices: localSelectedServices, totalPrice }, // Pass services to the booking page
+        });
+      } else {
+        alert("Please log in to proceed with the booking.");
+        navigate("/login"); // Redirect to login page if not logged in
+      }
+    };
+  
+    // Render if the salon is not found
+    if (!salon) {
+      return (
+        <div className="salon-details">
+          <h1>Salon Not Found</h1>
+          <button className="back-button" onClick={() => navigate(-1)}>
+            Go Back
+          </button>
+        </div>
+      );
     }
-  };
-
-  // Render if the salon is not found
-  if (!salon) {
+  
     return (
       <div className="salon-details">
-        <h1>Salon Not Found</h1>
-        <button className="back-button" onClick={() => navigate(-1)}>
-          Go Back
+        <h1>{salon.name}</h1>
+        <p>{salon.intro}</p>
+  
+        <h2>Services:</h2>
+        <div className="services-list">
+          {salon.services.map((service, index) => (
+            <div className="service-card" key={index}>
+              <div className="card">
+                <div className="card-text">
+                  <p className="card-meal-type">{service.for}</p>
+                  <h2 className="card-title">{service.name}</h2>
+                  <p className="card-body">{service.description}</p>
+                </div>
+                <div className="card-price">{service.price}</div>
+              </div>
+              <div className="service-select">
+                <input
+                  type="checkbox"
+                  id={`service-${index}`} // Ensure unique checkbox ID per service
+                  checked={localSelectedServices.some(
+                    (s) => s.name === service.name && s.for === service.for // Check if the service is selected
+                  )}
+                  onChange={() => handleServiceSelect(service)} // Toggle selection
+                />
+                <label htmlFor={`service-${index}`}>Select</label>
+              </div>
+            </div>
+          ))}
+        </div>
+  
+        <button className="btn-book-now" onClick={handleBookNow}>
+          Book Now
         </button>
       </div>
     );
   }
-
-  return (
-    <div className="salon-details">
-      <h1>{salon.name}</h1>
-      <p>{salon.intro}</p>
-
-      <h2>Services:</h2>
-      <div className="services-list">
-        {salon.services.map((service, index) => (
-          <div className="service-card" key={index}>
-            <h3>{service.name}</h3>
-            <p>
-              <strong>For:</strong> {service.for}
-            </p>
-            <p>
-              <strong>Price:</strong> {service.price}
-            </p>
-            <div className="service-select">
-              <input
-                type="checkbox"
-                id={`service-${index}`} // Ensure unique checkbox ID per service
-                checked={localSelectedServices.some(
-                  (s) => s.name === service.name && s.for === service.for // Check if the service is selected
-                )}
-                onChange={() => handleServiceSelect(service)} // Toggle selection
-              />
-              <label htmlFor={`service-${index}`}>Select</label>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button className="btn-book-now" onClick={handleBookNow}>
-        Book Now
-      </button>
-    </div>
-  );
-}
+  
