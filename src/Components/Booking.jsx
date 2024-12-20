@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import "./Booking.css"; // You can add custom styles here
+import "./Booking.css"; // Add custom styles here
 
 const Booking = ({ selectedServices, totalPrice }) => {
   const [paymentMethod, setPaymentMethod] = useState("COD");
   const navigate = useNavigate();
+  const conversionRate = 82; // Example: 1 USD = 82 INR
+  const totalInRupees = totalPrice * conversionRate;
 
   const handlePayment = () => {
     // Check if the user is logged in using localStorage
@@ -24,8 +26,13 @@ const Booking = ({ selectedServices, totalPrice }) => {
       return;
     }
 
-    // Redirect to a payment success page or confirm booking
-    navigate("/payment-success"); // You can define this route
+    // Redirect to the payment component with the total price in INR
+    if (paymentMethod === "Online") {
+      navigate("/payment", { state: { amount: totalInRupees } }); // Pass the amount in INR as state
+    } else {
+      // Handle Cash on Delivery (COD) case
+      navigate("/payment-success"); // Redirect to COD confirmation page
+    }
   };
 
   // Render the booking details only if there are selected services
@@ -52,14 +59,16 @@ const Booking = ({ selectedServices, totalPrice }) => {
               <ul className="services-list">
                 {selectedServices.map((service, index) => (
                   <li key={index} className="service-item">
-                    <strong>{service.name}</strong> for {service.for} - <span className="service-price">${service.price}</span>
+                    <strong>{service.name}</strong> for {service.for} - <span className="service-price">{service.price}</span>
                   </li>
                 ))}
               </ul>
               <hr />
               <div className="total-price">
-                <h4>Total Amount</h4>
+                <h4>Total Amount (USD)</h4>
                 <h2 className="price">${totalPrice}</h2>
+                <h4>Total Amount (INR)</h4>
+                <h2 className="price">₹{totalInRupees}</h2>
               </div>
             </Card.Body>
           </Card>

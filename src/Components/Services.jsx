@@ -85,7 +85,7 @@ export default function Services() {
                             <div className="boxinfo">
                                 <div className="ser-name">{service.name}</div>
                                 <p className="ser-description">{service.description}</p>
-                                <Link to="/booking" className="book-button">Book Now</Link>
+                                
                             </div>
                         </div>
                     ))}
