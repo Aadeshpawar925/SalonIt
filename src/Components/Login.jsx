@@ -24,12 +24,6 @@ const Login = () => {
     if (!formData.password) {
       passwordError = "Password is required";
       valid = false;
-    } else if (
-      !/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(formData.password)
-    ) {
-      passwordError =
-        "Password must be at least 8 characters, include a number, a symbol, and an uppercase letter";
-      valid = false;
     }
 
     setErrors({ email: emailError, password: passwordError });
@@ -40,7 +34,7 @@ const Login = () => {
     if (validateForm()) {
       // Set login status in localStorage
       localStorage.setItem("userLoggedIn", true);
-
+  
       // Redirect to appropriate role page
       if (role === "salon") {
         navigate("/"); // Adjust destination as needed
@@ -59,63 +53,48 @@ const Login = () => {
   return (
     <Container className="login-container">
       <div className="login-box">
-        <h1 className="text-center mb-4">Salon Appointment</h1>
-        <p className="text-center">SIGN-IN</p>
+        <h1>Login</h1>
         <Form>
           <Form.Group className="mb-3">
-            <Form.Label className="login-name">Email address</Form.Label>
+            <Form.Label>Email Address</Form.Label>
             <Form.Control
               type="email"
-              placeholder="Enter email"
+              placeholder="Enter your email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               isInvalid={!!errors.email}
-              required
             />
             <Form.Control.Feedback type="invalid">
               {errors.email}
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label className="login-name">Password</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Enter password"
+              placeholder="Enter your password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               isInvalid={!!errors.password}
-              required
             />
             <Form.Control.Feedback type="invalid">
               {errors.password}
             </Form.Control.Feedback>
           </Form.Group>
-          <div className="d-flex justify-content-between">
-            <Button
-              variant="primary"
-              className="role-button"
-              onClick={() => handleLogin("customer")}
-            >
-              Customer Login
-            </Button>
-            <Button
-              variant="success"
-              className="role-button"
-              onClick={() => handleLogin("salon")}
-            >
-              Salon Owner Login
-            </Button>
-          </div>
+          <Button variant="primary" className="login-button" onClick={handleLogin}>
+            Login
+          </Button>
         </Form>
-        <p className="text-center mt-4">
+        <p className="signup-text">
+          Don't have an account?{" "}
           <Button
             variant="link"
-            className="p-0"
+            className="signup-link"
             onClick={() => navigate("/signup")}
           >
-            Don't have an account? Sign Up
+            Sign up here
           </Button>
         </p>
       </div>

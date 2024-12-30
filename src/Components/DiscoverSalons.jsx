@@ -33,7 +33,7 @@ export default function DiscoverSalons() {
         {salons.map((salon) => (
           <div className="card-hover" key={salon.id}>
             <img
-              src="https://images.unsplash.com/photo-1586511925558-a4c6376fe65f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=60"
+              src="https://plus.unsplash.com/premium_photo-1669675936121-6d3d42244ab5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2Fsb258ZW58MHx8MHx8fDA%3D"
               alt={`${salon.name}`}
             />
             <div className="card-hover__content">

@@ -103,8 +103,7 @@ const SignUp = () => {
   return (
     <Container className="login-container">
       <div className="login-box">
-        <h1 className="text-center mb-4">Salon Appointment</h1>
-        <p className="text-center">SIGN-UP</p>
+        <h1 className="text-center mb-4">SIGN-UP</h1>
         <Form>
           <div className="d-flex">
             <Form.Group className="mb-3 me-2 w-50">
@@ -194,7 +193,6 @@ const SignUp = () => {
               required
             >
               <option value="">Select Role</option>
-              <option value="baber">Barber</option>
               <option value="owner">Owner</option>
               <option value="customer">Customer</option>
             </Form.Control>
@@ -214,7 +212,7 @@ const SignUp = () => {
           <Button
             variant="link"
             className="p-0 "
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/login")}
           >
             Already have an account? Login
           </Button>

@@ -10,7 +10,7 @@ const PaymentComponent = ({ setPaymentId }) => {
 
     useEffect(() => {
         const loadRazorpayScript = () => {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 if (window.Razorpay) {
                     resolve();
                     return;
@@ -18,10 +18,8 @@ const PaymentComponent = ({ setPaymentId }) => {
 
                 const script = document.createElement('script');
                 script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-                script.onload = () => resolve();
-                script.onerror = () => {
-                    setError("Failed to load Razorpay SDK. Please try again later.");
-                };
+                script.onload = resolve;
+                script.onerror = () => reject("Failed to load Razorpay SDK.");
                 document.body.appendChild(script);
             });
         };
@@ -29,6 +27,12 @@ const PaymentComponent = ({ setPaymentId }) => {
         const handlePayment = async () => {
             setError(null);
             setIsLoading(true);
+
+            if (amount <= 0) {
+                setError("Invalid amount. Please try again.");
+                setIsLoading(false);
+                return;
+            }
 
             try {
                 await loadRazorpayScript();
@@ -38,15 +42,15 @@ const PaymentComponent = ({ setPaymentId }) => {
                     amount: amount * 100, // Amount in paise (Razorpay expects amount in paise)
                     currency: 'INR',
                     name: 'SaloonIT',
-                    description: 'Payment For Hair Saloon Services',
+                    description: 'Payment for Hair Saloon Services',
                     handler: function (response) {
                         setPaymentId(response.razorpay_payment_id); // Set the payment ID
                         console.log('Payment successful:', response);
                         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-                        
+
                         // Redirect to success page and pass paymentId in state
                         navigate('/payment-success', {
-                            state: { paymentId: response.razorpay_payment_id }
+                            state: { paymentId: response.razorpay_payment_id },
                         });
                     },
                     prefill: {
@@ -62,7 +66,11 @@ const PaymentComponent = ({ setPaymentId }) => {
                 const razorpay = new window.Razorpay(options);
                 razorpay.on('payment.failed', (response) => {
                     console.error('Payment failed:', response.error);
-                    setError("Payment failed. Please try again.");
+
+                    // Show detailed error to the user
+                    setError(
+                        `Payment failed: ${response.error.description || "An unexpected error occurred."}`
+                    );
                 });
 
                 razorpay.open();
@@ -90,6 +98,19 @@ const PaymentComponent = ({ setPaymentId }) => {
                         <div style={{ color: 'red', marginTop: '20px' }}>
                             <h3>Error</h3>
                             <p>{error}</p>
+                            <button
+                                onClick={() => navigate('/')}
+                                style={{
+                                    padding: '10px 20px',
+                                    background: '#F37254',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                Go Back
+                            </button>
                         </div>
                     ) : (
                         <h2>Payment initialized. Follow the Razorpay popup to complete your payment.</h2>
