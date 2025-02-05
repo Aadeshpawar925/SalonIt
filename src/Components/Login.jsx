@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "./Login.css";
+
+const users = [
+  { email: "admin@example.com", password: "admin123", role: "admin" },
+  { email: "owner@example.com", password: "owner123", role: "owner" },
+  { email: "customer@example.com", password: "customer123", role: "customer" },
+];
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -30,16 +37,20 @@ const Login = () => {
     return valid;
   };
 
-  const handleLogin = (role) => {
+  const handleLogin = () => {
     if (validateForm()) {
-      // Set login status in localStorage
-      localStorage.setItem("userLoggedIn", true);
-  
-      // Redirect to appropriate role page
-      if (role === "salon") {
-        navigate("/"); // Adjust destination as needed
-      } else if (role === "customer") {
-        navigate("/"); // Adjust destination as needed
+      const user = users.find(
+        (u) => u.email === formData.email && u.password === formData.password
+      );
+
+      if (user) {
+        localStorage.setItem("userLoggedIn", true);
+        localStorage.setItem("userRole", user.role);
+        if (user.role === "admin") navigate("/admin-dashboard");
+        else if (user.role === "owner") navigate("/salon-dashboard");
+        else if (user.role === "customer") navigate("/customer-dashboard");
+      } else {
+        setErrors({ email: "Invalid credentials", password: "" });
       }
     }
   };
@@ -87,16 +98,7 @@ const Login = () => {
             Login
           </Button>
         </Form>
-        <p className="signup-text">
-          Don't have an account?{" "}
-          <Button
-            variant="link"
-            className="signup-link"
-            onClick={() => navigate("/signup")}
-          >
-            Sign up here
-          </Button>
-        </p>
+        <p>Dont have an account? <Link to="/signup">Register</Link></p>
       </div>
     </Container>
   );

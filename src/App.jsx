@@ -12,6 +12,11 @@ import SalonDetails from "./Components/SalonDetails";
 import Booking from "./Components/Booking";
 import PaymentComponent from "./Components/PaymentComponent";
 import PaymentSuccessPage from "./Components/PaymentSuccessPage";
+import AdminDashboard from "./Components/AdminDashboard";
+import SalonDashboard from "./Components/SalonDashboard";
+import CustomerDashboard from "./Components/CustomerDashboard";
+import ManageSalons from "./Components/ManageSalons";
+import ManageUsers from "./Components/ManageUsers";
 
 function App() {
   const [selectedServices, setSelectedServices] = useState([]);
@@ -65,6 +70,11 @@ function App() {
         <Route path="/payment" element={<PaymentComponent setPaymentId= {setPayId} />} />
 
          <Route path="/payment-success" element={<PaymentSuccessPage paymentId={payId} />} />
+         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/salon-dashboard" element={<SalonDashboard />} />
+        <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+        <Route path="/admin/manage-salons" element={ <ManageSalons /> } />
+        <Route path="/admin/manage-users" element={ <ManageUsers />  } />
       </Routes>
       <Footer /> {/* Displayed on all pages */}
     </>
