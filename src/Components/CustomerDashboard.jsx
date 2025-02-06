@@ -10,8 +10,8 @@ const CustomerDashboard = () => {
     <Container className="dashboard-container">
       <h1 className="dashboard-title">Customer Dashboard</h1>
       <div className="dashboard-buttons">
-        <Button onClick={() => navigate("/book-appointment")}>Book Appointment</Button>
-        <Button onClick={() => navigate("/browse-salons")}>Browse Salons</Button>
+        
+        <Button onClick={() => navigate("/discover-salons")}>Browse Salons</Button>
         <Button onClick={() => navigate("/my-bookings")}>My Bookings</Button>
       </div>
     </Container>

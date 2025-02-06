@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const PaymentComponent = ({ setPaymentId }) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const amount = location.state?.amount || 0; // Default to 0 if no amount is passed
+    const amount = location.state?.amount || 0; // 🔹 Now correctly fetching amount from Booking
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -15,9 +15,8 @@ const PaymentComponent = ({ setPaymentId }) => {
                     resolve();
                     return;
                 }
-
-                const script = document.createElement('script');
-                script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                const script = document.createElement("script");
+                script.src = "https://checkout.razorpay.com/v1/checkout.js";
                 script.onload = resolve;
                 script.onerror = () => reject("Failed to load Razorpay SDK.");
                 document.body.appendChild(script);
@@ -36,46 +35,36 @@ const PaymentComponent = ({ setPaymentId }) => {
 
             try {
                 await loadRazorpayScript();
-
                 const options = {
-                    key: 'rzp_test_W1Q8BUqjEuknLa', // Replace with your Razorpay Key ID
-                    amount: amount * 100, // Amount in paise (Razorpay expects amount in paise)
-                    currency: 'INR',
-                    name: 'SaloonIT',
-                    description: 'Payment for Hair Saloon Services',
+                    key: "rzp_test_W1Q8BUqjEuknLa",
+                    amount: amount * 100,
+                    currency: "INR",
+                    name: "SaloonIT",
+                    description: "Payment for Salon Services",
                     handler: function (response) {
-                        setPaymentId(response.razorpay_payment_id); // Set the payment ID
-                        console.log('Payment successful:', response);
+                        setPaymentId(response.razorpay_payment_id);
                         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
 
-                        // Redirect to success page and pass paymentId in state
-                        navigate('/payment-success', {
+                        navigate("/payment-success", {
                             state: { paymentId: response.razorpay_payment_id },
                         });
                     },
                     prefill: {
-                        name: 'Customer Name',
-                        email: 'customer@example.com',
-                        contact: '9999999999',
+                        name: "Customer Name",
+                        email: "customer@example.com",
+                        contact: "9999999999",
                     },
-                    theme: {
-                        color: '#F37254',
-                    },
+                    theme: { color: "#F37254" },
                 };
 
                 const razorpay = new window.Razorpay(options);
-                razorpay.on('payment.failed', (response) => {
-                    console.error('Payment failed:', response.error);
-
-                    // Show detailed error to the user
-                    setError(
-                        `Payment failed: ${response.error.description || "An unexpected error occurred."}`
-                    );
+                razorpay.on("payment.failed", (response) => {
+                    console.error("Payment failed:", response.error);
+                    setError(`Payment failed: ${response.error.description || "An unexpected error occurred."}`);
                 });
 
                 razorpay.open();
             } catch (err) {
-                console.error("Error in payment process:", err);
                 setError("An unexpected error occurred. Please try again.");
             } finally {
                 setIsLoading(false);
@@ -86,7 +75,7 @@ const PaymentComponent = ({ setPaymentId }) => {
     }, [amount, navigate, setPaymentId]);
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <div style={{ textAlign: "center", marginTop: "50px" }}>
             {isLoading ? (
                 <div>
                     <h2>Processing Payment...</h2>
@@ -95,20 +84,10 @@ const PaymentComponent = ({ setPaymentId }) => {
             ) : (
                 <div>
                     {error ? (
-                        <div style={{ color: 'red', marginTop: '20px' }}>
+                        <div style={{ color: "red", marginTop: "20px" }}>
                             <h3>Error</h3>
                             <p>{error}</p>
-                            <button
-                                onClick={() => navigate('/')}
-                                style={{
-                                    padding: '10px 20px',
-                                    background: '#F37254',
-                                    color: '#fff',
-                                    border: 'none',
-                                    borderRadius: '5px',
-                                    cursor: 'pointer',
-                                }}
-                            >
+                            <button onClick={() => navigate("/")} style={{ padding: "10px 20px", background: "#F37254", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
                                 Go Back
                             </button>
                         </div>

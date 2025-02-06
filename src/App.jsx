@@ -67,7 +67,8 @@ function App() {
             )
           }
         />
-        <Route path="/payment" element={<PaymentComponent setPaymentId= {setPayId} />} />
+        <Route path="/payment" element={<PaymentComponent setPaymentId={setPayId} />} />
+
 
          <Route path="/payment-success" element={<PaymentSuccessPage paymentId={payId} />} />
          <Route path="/admin-dashboard" element={<AdminDashboard />} />

@@ -12,7 +12,7 @@ const SalonDashboard = () => {
       <div className="dashboard-buttons">
         <Button onClick={() => navigate("/appointments")}>Manage Appointments</Button>
         <Button onClick={() => navigate("/services")}>Manage Services</Button>
-        <Button onClick={() => navigate("/staff")}>Manage Staff</Button>
+        
       </div>
     </Container>
   );

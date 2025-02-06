@@ -1,14 +1,10 @@
+// Updated Login Component with Axios authentication
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Container, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./Login.css";
-
-const users = [
-  { email: "admin@example.com", password: "admin123", role: "admin" },
-  { email: "owner@example.com", password: "owner123", role: "owner" },
-  { email: "customer@example.com", password: "customer123", role: "customer" },
-];
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -37,19 +33,18 @@ const Login = () => {
     return valid;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (validateForm()) {
-      const user = users.find(
-        (u) => u.email === formData.email && u.password === formData.password
-      );
+      try {
+        const response = await axios.post("https://localhost:44371/api/Users/login", formData);
+        const { token, role } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userRole", role);
 
-      if (user) {
-        localStorage.setItem("userLoggedIn", true);
-        localStorage.setItem("userRole", user.role);
-        if (user.role === "admin") navigate("/admin-dashboard");
-        else if (user.role === "owner") navigate("/salon-dashboard");
-        else if (user.role === "customer") navigate("/customer-dashboard");
-      } else {
+        if (role === "admin") navigate("/admin-dashboard");
+        else if (role === "owner") navigate("/salon-dashboard");
+        else if (role === "customer") navigate("/customer-dashboard");
+      } catch (error) {
         setErrors({ email: "Invalid credentials", password: "" });
       }
     }
@@ -76,9 +71,7 @@ const Login = () => {
               onChange={handleChange}
               isInvalid={!!errors.email}
             />
-            <Form.Control.Feedback type="invalid">
-              {errors.email}
-            </Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Password</Form.Label>
@@ -90,18 +83,17 @@ const Login = () => {
               onChange={handleChange}
               isInvalid={!!errors.password}
             />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" className="login-button" onClick={handleLogin}>
             Login
           </Button>
         </Form>
-        <p>Dont have an account? <Link to="/signup">Register</Link></p>
+        <p>Don't have an account? <Link to="/signup">Register</Link></p>
       </div>
     </Container>
   );
 };
 
 export default Login;
+
