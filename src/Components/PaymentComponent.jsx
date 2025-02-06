@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate , useParams } from "react-router-dom";
 
-const PaymentComponent = ({ setPaymentId }) => {
+const PaymentComponent = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { salonId } = useParams();
     const amount = location.state?.amount || 0; // 🔹 Now correctly fetching amount from Booking
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const appointmentData = location.state?.appointmentData;
+
 
     useEffect(() => {
         const loadRazorpayScript = () => {
@@ -41,13 +44,10 @@ const PaymentComponent = ({ setPaymentId }) => {
                     currency: "INR",
                     name: "SaloonIT",
                     description: "Payment for Salon Services",
-                    handler: function (response) {
-                        setPaymentId(response.razorpay_payment_id);
+                    handler:  function  (response) {
+                       console.log(response.data);
                         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
-
-                        navigate("/payment-success", {
-                            state: { paymentId: response.razorpay_payment_id },
-                        });
+                       
                     },
                     prefill: {
                         name: "Customer Name",
@@ -62,7 +62,22 @@ const PaymentComponent = ({ setPaymentId }) => {
                     console.error("Payment failed:", response.error);
                     setError(`Payment failed: ${response.error.description || "An unexpected error occurred."}`);
                 });
+                razorpay.on("payment.success" , async (response) =>{
+                    try {
+                        const resp = await axios.post("https://localhost:44371/api/Payments", {
+                            UserId : JSON.parse(localStorage.getItem("user")).userId,
+                            SalonId : salonId,
+                            Appointments : appointmentData.map((a) => ({...a ,paymentMethod: "Test" ,price: localSelectedServices.find((s)=>s.serviceId === a.serviceId)?.cost})),
+                            
+                          });
 
+                        navigate(`/salons/${salonId}/booking/payment/payment-success`, {
+                            state: { paymentId: response.razorpay_payment_id },
+                        });
+                    } catch (error) {
+                        alert("Something went wrong.")
+                    }
+                })
                 razorpay.open();
             } catch (err) {
                 setError("An unexpected error occurred. Please try again.");
@@ -72,7 +87,7 @@ const PaymentComponent = ({ setPaymentId }) => {
         };
 
         handlePayment();
-    }, [amount, navigate, setPaymentId]);
+    }, [amount, navigate, ]);
 
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>

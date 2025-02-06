@@ -1,5 +1,5 @@
 // Updated Login Component with Axios authentication
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Form, Button } from "react-bootstrap";
@@ -10,7 +10,7 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
   const navigate = useNavigate();
-
+  const isLoggedIn = !!localStorage.getItem("user");
   const validateForm = () => {
     let valid = true;
     let emailError = "";
@@ -33,12 +33,23 @@ const Login = () => {
     return valid;
   };
 
+  useEffect(()=>{
+      if(isLoggedIn){
+        const role = localStorage.getItem("userRole");
+        if (role === "admin") navigate("/admin-dashboard");
+        else if (role === "owner") navigate("/salon-dashboard");
+        else if (role === "customer") navigate("/customer-dashboard");
+      }
+  
+  } , [isLoggedIn])
   const handleLogin = async () => {
     if (validateForm()) {
       try {
         const response = await axios.post("https://localhost:44371/api/Users/login", formData);
-        const { token, role } = response.data;
-        localStorage.setItem("token", token);
+        const user = JSON.stringify(response.data);
+        console.log(response.data);
+        const role = response.data.role;
+        localStorage.setItem("user", user);
         localStorage.setItem("userRole", role);
 
         if (role === "admin") navigate("/admin-dashboard");

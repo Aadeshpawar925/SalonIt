@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import "./Booking.css"; 
 
-const Booking = ({ selectedServices = [], totalPrice }) => {
+const Booking = () => {
+  const {salonId} = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const services = location.state?.selectedServices || selectedServices;
-  const total = location.state?.totalPrice || totalPrice;
+  const services = location.state?.selectedServices ;
+  const total = location.state?.totalPrice ;
+  const appointmentData = location.state?.appointmentData;
 
   const [paymentMethod, setPaymentMethod] = useState(""); 
 
   const handlePayment = () => {
     if (services.length === 0) {
       alert("No services selected. Please go back and select services.");
-      navigate("/discover-salons");
+      navigate("/salons");
       return;
     }
 
@@ -25,8 +27,9 @@ const Booking = ({ selectedServices = [], totalPrice }) => {
     }
 
     // 🔹 Now correctly passing total amount to PaymentComponent
-    navigate("/payment", { state: { amount: total, paymentMethod } });
+    navigate(`/salons/${salonId}/booking/payment`, { state: { amount: total, paymentMethod , appointmentData } });
   };
+  
 
   return (
     <Container className="booking-container">

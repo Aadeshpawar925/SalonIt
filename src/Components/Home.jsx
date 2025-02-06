@@ -12,7 +12,7 @@ export default function Home() {
                         Welcome to Salon It, your ultimate destination to discover the best salons in town. Explore top-rated salons, read reviews, and book appointments with ease. Your beauty journey starts here!
                     </p>
                     <div className="btn">
-                        <Link to="/discover-salons">Find Salons</Link>
+                        <Link to="/salons">Find Salons</Link>
                         {/* <Link href="/">Contact Us</Link> */}
                     </div>
                 </div>
@@ -31,7 +31,7 @@ export default function Home() {
                         Find and book appointments at the best salons in your area. Browse by services, customer reviews, and much more. Your next beauty experience is just a click away!
                     </p>
 
-                    <a href="/discover-salons" className="btn">Browse Salons</a>
+                    <a href="/salons" className="btn">Browse Salons</a>
                 </div>
             </section>
 

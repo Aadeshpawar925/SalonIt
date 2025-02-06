@@ -3,10 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./SalonDetails.css";
 
-export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
-  const { id } = useParams(); // Fetch salon ID from URL
+export default function SalonDetails() {
+  const { salonId } = useParams(); // Fetch salon ID from URL
+  
   const navigate = useNavigate();
-
+  const [totalPrice, setTotalPrice] = useState(0);
   const [salon, setSalon] = useState(null);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
   useEffect(() => {
     const fetchSalonDetails = async () => {
       try {
-        const salonResponse = await axios.get(`https://localhost:44371/api/salons/${id}`);
+        const salonResponse = await axios.get(`https://localhost:44371/api/salons/${salonId}`);
         setSalon(salonResponse.data);
       } catch (err) {
         setError("Error fetching salon details.");
@@ -25,7 +26,7 @@ export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
 
     const fetchServices = async () => {
       try {
-        const serviceResponse = await axios.get(`https://localhost:44371/api/services/salon/${id}`);
+        const serviceResponse = await axios.get(`https://localhost:44371/api/services/salon/${salonId}`);
         setServices(serviceResponse.data);
       } catch (err) {
         setError("Error fetching services.");
@@ -35,7 +36,7 @@ export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
     fetchSalonDetails();
     fetchServices();
     setLoading(false);
-  }, [id]);
+  }, [salonId]);
 
   const handleServiceSelect = (service) => {
     setLocalSelectedServices((prevSelected) => {
@@ -46,28 +47,39 @@ export default function SalonDetails({ setSelectedServices, setTotalPrice }) {
       } else {
         updatedServices = [...prevSelected, service];
       }
-      setSelectedServices(updatedServices); // Update global state in App.js
+      // setSelectedServices(updatedServices); // Update global state in App.js
       setTotalPrice(updatedServices.reduce((sum, s) => sum + s.cost, 0));
       return updatedServices;
     });
   };
 
-  const handleBookNow = () => {
-    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+  const handleBookNow = async () => {
+    const isLoggedIn = localStorage.getItem("user") != "undefined";
   
     if (localSelectedServices.length === 0) {
       alert("Please select at least one service.");
       return;
     }
   
-    const totalPrice = localSelectedServices.reduce((sum, service) => sum + service.cost, 0);
-    setSelectedServices(localSelectedServices);
-    setTotalPrice(totalPrice);
+    // const totalPrice = localSelectedServices.reduce((sum, service) => sum + service.cost, 0);
+    // setSelectedServices(localSelectedServices);
+    
   
     if (isLoggedIn) {
-      navigate("/booking", {
-        state: { selectedServices: localSelectedServices, totalPrice },
-      });
+      try {
+        const response = await axios.post("https://localhost:44371/api/Appointments", {
+          UserId : JSON.parse(localStorage.getItem("user")).userId,
+          SalonId : salonId,
+          Services: localSelectedServices.map((s) => s.serviceId),
+        });
+        console.log(response.data);
+        navigate(`/salons/${salonId}/booking`, {
+          state: { selectedServices: localSelectedServices, totalPrice: totalPrice , appointmentData : response.data },
+        });
+      } catch (error) {
+        alert("Booking Failed.")
+      }
+      
     } else {
       alert("Please log in to proceed with the booking.");
       navigate("/login");

@@ -19,9 +19,9 @@ import ManageSalons from "./Components/ManageSalons";
 import ManageUsers from "./Components/ManageUsers";
 
 function App() {
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [payId , setPayId] = useState("")
+
+  // const [totalPrice, setTotalPrice] = useState(0);
+  
 
   const handleLogin = () => {
     localStorage.setItem("userLoggedIn", "true"); // Ensure login persists across refresh
@@ -45,32 +45,33 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
 
         {/* Salon Discovery and Details */}
-        <Route path="/discover-salons" element={<DiscoverSalons />} /> {/* Lists salons */}
+        <Route path="/salons" element={<DiscoverSalons />} />
+        
         <Route
-          path="/salons/:id"
+          path="/salons/:salonId"
           element={
             <SalonDetails
-              setSelectedServices={setSelectedServices}
-              setTotalPrice={setTotalPrice}
+            // setSelectedServices={setSelectedServices}
+            
             />
           }
-        />
-
-        {/* Booking Page - Protected */}
+          />
+          
+        
         <Route
-          path="/booking"
+          path="/salons/:salonId/booking"
           element={
-            localStorage.getItem("userLoggedIn") === "true" ? (
-              <Booking selectedServices={selectedServices} totalPrice={totalPrice} />
+            localStorage.getItem("user")  ? (
+              <Booking   />
             ) : (
               <Login />
             )
           }
         />
-        <Route path="/payment" element={<PaymentComponent setPaymentId={setPayId} />} />
+        <Route path="/salons/:salonId/booking/payment" element={<PaymentComponent  />} />
 
 
-         <Route path="/payment-success" element={<PaymentSuccessPage paymentId={payId} />} />
+         <Route path="/salons/:salonId/booking/payment/payment-success" element={<PaymentSuccessPage />} />
          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/salon-dashboard" element={<SalonDashboard />} />
         <Route path="/customer-dashboard" element={<CustomerDashboard />} />
