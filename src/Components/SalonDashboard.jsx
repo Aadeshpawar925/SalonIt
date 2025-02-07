@@ -1,19 +1,45 @@
 import React from "react";
-import { Container, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
+const DashboardCard = ({ title, description, onClick }) => {
+  return (
+    <Card className="dashboard-card shadow-lg">
+      <Card.Body>
+        <Card.Title>{title}</Card.Title>
+        <Card.Text>{description}</Card.Text>
+        <Button variant="primary" onClick={onClick}>Manage</Button>
+      </Card.Body>
+    </Card>
+  );
+};
+
 const SalonDashboard = () => {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user")); 
+    const userName =  `${user.firstName} ${user.lastName}` ; 
 
   return (
-    <Container className="dashboard-container">
-      <h1 className="dashboard-title">Salon Dashboard</h1>
-      <div className="dashboard-buttons">
-        <Button onClick={() => navigate("/appointments")}>Manage Appointments</Button>
-        <Button onClick={() => navigate("/services")}>Manage Services</Button>
-        
-      </div>
+    <Container  className="dashboard-container">
+      <h1 style={{textAlign : "left"}} className="dashboard-title">Hey {userName} enjoy your time on our site...XD</h1>
+      <h2 style={{marginTop : "50px"}} className="dashboard-title">Salon Dashboard</h2>
+      <Row className="dashboard-row">
+        <Col md={6} className="mb-4">
+          <DashboardCard 
+            title="Appointments" 
+            description="Manage all customer appointments efficiently." 
+            onClick={() => navigate("/appointments")} 
+          />
+        </Col>
+        <Col md={6} className="mb-4">
+          <DashboardCard 
+            title="Manage Salon and its services." 
+            description="Add, edit, or remove salon services easily." 
+            onClick={() => navigate("/ownerSalons")} 
+          />
+        </Col>
+      </Row>
     </Container>
   );
 };

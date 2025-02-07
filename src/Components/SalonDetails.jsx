@@ -13,7 +13,8 @@ export default function SalonDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [localSelectedServices, setLocalSelectedServices] = useState([]);
-
+  const user = localStorage.getItem("user");
+const isLoggedIn = user && user !== "undefined" && user !== "null"; 
   useEffect(() => {
     const fetchSalonDetails = async () => {
       try {
@@ -54,7 +55,8 @@ export default function SalonDetails() {
   };
 
   const handleBookNow = async () => {
-    const isLoggedIn = localStorage.getItem("user") != "undefined";
+    
+
   
     if (localSelectedServices.length === 0) {
       alert("Please select at least one service.");

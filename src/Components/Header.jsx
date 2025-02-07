@@ -10,6 +10,7 @@ export default function Header() {
     const handleLogout = () => {
         localStorage.removeItem("user");
         localStorage.removeItem("userRole");
+        localStorage.removeItem("Email");
         navigate("/");
     };
 useEffect(()=>{

@@ -20,15 +20,19 @@ const Booking = () => {
       navigate("/salons");
       return;
     }
-
+  
     if (!paymentMethod) {
       alert("Please select a payment method before proceeding.");
       return;
     }
-
-    // 🔹 Now correctly passing total amount to PaymentComponent
-    navigate(`/salons/${salonId}/booking/payment`, { state: { amount: total, paymentMethod , appointmentData } });
+  
+    if (paymentMethod === "COD") {
+      navigate("/salons/${salonId}/booking/payment/payment-success", { state: { appointmentData, services } });
+    } else {
+      navigate(`/salons/${salonId}/booking/payment`, { state: { amount: total, paymentMethod, appointmentData, services } });
+    }
   };
+  
   
 
   return (
@@ -61,15 +65,15 @@ const Booking = () => {
             <Card.Body>
               <h3>Choose Payment Method</h3>
               <div>
-                <input
-                  type="radio"
-                  id="cod"
-                  name="payment-method"
-                  value="COD"
-                  checked={paymentMethod === "COD"}
-                  onChange={() => setPaymentMethod("COD")}
-                />
-                <label htmlFor="cod">Cash on Delivery</label>
+              <input
+                type="radio"
+                id="cod"
+                name="payment-method"
+                value="COD"
+                checked={paymentMethod === "COD"}
+                onChange={() => setPaymentMethod("COD")}
+              />
+              <label htmlFor="cod">Cash at Salon</label>
               </div>
               <div>
                 <input

@@ -49,6 +49,7 @@ const Login = () => {
         const user = JSON.stringify(response.data);
         console.log(response.data);
         const role = response.data.role;
+        localStorage.setItem("Email", response.data.email);
         localStorage.setItem("user", user);
         localStorage.setItem("userRole", role);
 
