@@ -10,26 +10,33 @@ export default function SalonDetails() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [salon, setSalon] = useState(null);
   const [services, setServices] = useState([]);
-  const [reviews, setReviews] = useState([]); // New state for reviews
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [localSelectedServices, setLocalSelectedServices] = useState([]);
-  
+
   const user = localStorage.getItem("user");
   const isLoggedIn = user && user !== "undefined" && user !== "null";
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSalonDetails = async () => {
+      setLoading(true);
       try {
-        const [salonResponse, serviceResponse, reviewResponse] = await Promise.all([
-          axios.get(`https://localhost:44371/api/salons/${salonId}`),
-          axios.get(`https://localhost:44371/api/services/salon/${salonId}`),
-          axios.get(`https://localhost:44371/api/reviewfeedbacks/salon/${salonId}`)
-        ]);
-
+        // Fetch salon details
+        const salonResponse = await axios.get(`https://localhost:44371/api/salons/${salonId}`);
         setSalon(salonResponse.data);
-        setServices(serviceResponse.data);
-        setReviews(reviewResponse.data); // Store reviews
+
+        // Fetch services (retry logic for newly added salons)
+        await fetchServices();
+
+        try {
+          const reviewResponse = await axios.get(`https://localhost:44371/api/reviewfeedbacks/salon/${salonId}`);
+          setReviews(reviewResponse.data);
+        } catch (err) {
+          console.error("Error fetching reviews:", err);
+          setReviews([]); // Set an empty array instead of breaking the page
+        }
+        
       } catch (err) {
         setError("Error loading salon details.");
       } finally {
@@ -37,8 +44,18 @@ export default function SalonDetails() {
       }
     };
 
-    fetchData();
+    fetchSalonDetails();
   }, [salonId]);
+
+  const fetchServices = async () => {
+    try {
+      const serviceResponse = await axios.get(`https://localhost:44371/api/services/salon/${salonId}`);
+      setServices(serviceResponse.data);
+    } catch (err) {
+      console.error("Error fetching services:", err);
+      setServices([]); // Prevent undefined issues
+    }
+  };
 
   const handleServiceSelect = (service) => {
     setLocalSelectedServices((prevSelected) => {
@@ -60,8 +77,9 @@ export default function SalonDetails() {
 
     if (isLoggedIn) {
       try {
+        const parsedUser = JSON.parse(user);
         const response = await axios.post("https://localhost:44371/api/Appointments", {
-          UserId: JSON.parse(localStorage.getItem("user")).userId,
+          UserId: parsedUser?.userId,
           SalonId: salonId,
           Services: localSelectedServices.map((s) => s.serviceId),
         });
@@ -101,25 +119,29 @@ export default function SalonDetails() {
       {/* Services List */}
       <h2>Services Offered:</h2>
       <div className="services-list">
-        {services.map((service) => (
-          <div className="service-card" key={service.serviceId}>
-            <div className="card">
-              <div className="card-text">
-                <h2 className="card-title">{service.serviceName}</h2>
-                <p className="card-price">₹{service.cost}</p>
+        {services.length > 0 ? (
+          services.map((service) => (
+            <div className="service-card" key={service.serviceId}>
+              <div className="card">
+                <div className="card-text">
+                  <h2 className="card-title">{service.serviceName}</h2>
+                  <p className="card-price">₹{service.cost}</p>
+                </div>
+              </div>
+              <div className="service-select">
+                <input
+                  type="checkbox"
+                  id={`service-${service.serviceId}`}
+                  checked={localSelectedServices.some((s) => s.serviceId === service.serviceId)}
+                  onChange={() => handleServiceSelect(service)}
+                />
+                <label htmlFor={`service-${service.serviceId}`}>Select</label>
               </div>
             </div>
-            <div className="service-select">
-              <input
-                type="checkbox"
-                id={`service-${service.serviceId}`}
-                checked={localSelectedServices.some((s) => s.serviceId === service.serviceId)}
-                onChange={() => handleServiceSelect(service)}
-              />
-              <label htmlFor={`service-${service.serviceId}`}>Select</label>
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No services available for this salon.</p>
+        )}
       </div>
 
       {/* Booking Button */}

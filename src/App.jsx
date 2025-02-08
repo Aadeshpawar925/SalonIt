@@ -19,6 +19,9 @@ import ManageSalons from "./Components/ManageSalons";
 import ManageUsers from "./Components/ManageUsers";
 import OwnerSalons from "./Components/OwnerSalons";
 import UserFeedback from "./UserFeedback";
+import SalonServices from "./Components/SalonServices";
+import AppointmentManagement from "./Components/AppointmentManagement";
+import UserAppointment from "./Components/UserAppointment";
 
 function App() {
 
@@ -70,10 +73,13 @@ function App() {
         <Route path="/salons/:salonId/booking/payment" element={<PaymentComponent  />} />
 
         <Route path="/ownerSalons" element = {<OwnerSalons />} />
+        <Route path="/salonServices" element={<SalonServices />} />
          <Route path="/salons/:salonId/booking/payment/payment-success" element={<PaymentSuccessPage />} />
          <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/salon-dashboard" element={<SalonDashboard />} />
+        <Route path ="/appointments"  element = {<AppointmentManagement />} />
         <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+        <Route path="/my-bookings" element ={<UserAppointment />} />
         <Route path="/admin/manage-salons" element={ <ManageSalons /> } />
         <Route path="/admin/manage-users" element={ <ManageUsers />  } />
         <Route path="/give-feedback" element = {<UserFeedback />} />

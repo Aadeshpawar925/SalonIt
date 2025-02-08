@@ -34,9 +34,16 @@ const SalonDashboard = () => {
         </Col>
         <Col md={6} className="mb-4">
           <DashboardCard 
-            title="Manage Salon and its services." 
-            description="Add, edit, or remove salon services easily." 
+            title="Manage Salon." 
+            description="Add, edit, or remove salon  easily." 
             onClick={() => navigate("/ownerSalons")} 
+          />
+        </Col>
+        <Col md={6} className="mb-4">
+          <DashboardCard 
+            title="Manage Services." 
+            description="Add, edit, or remove services of salons  easily." 
+            onClick={() => navigate("/salonServices")} 
           />
         </Col>
       </Row>

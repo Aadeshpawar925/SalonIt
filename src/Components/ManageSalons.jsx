@@ -8,8 +8,9 @@ const API_BASE_URL = "https://localhost:44371/api/Salons";
 const ManageSalons = () => {
   const [salons, setSalons] = useState([]);
   const [show, setShow] = useState(false);
-  const [formData, setFormData] = useState({ salonId: "", name: "", address: "", ownerId: "", contact: "", email: "" });
+  const [formData, setFormData] = useState({ name: "", address: "", ownerId: "", contact: "", email: "" });
   const [isEdit, setIsEdit] = useState(false);
+  const [editingSalonId, setEditingSalonId] = useState(null);
 
   useEffect(() => {
     fetchSalons();
@@ -27,20 +28,27 @@ const ManageSalons = () => {
   const handleShow = (salon) => {
     if (salon) {
       setIsEdit(true);
-      setFormData(salon);
+      setEditingSalonId(salon.salonId);
+      setFormData({ ...salon });
     } else {
       setIsEdit(false);
-      setFormData({ salonId: "", name: "", address: "", ownerId: "", contact: "", email: "" });
+      setEditingSalonId(null);
+      setFormData({ name: "", address: "", ownerId: "", contact: "", email: "" });
     }
     setShow(true);
   };
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFormData({ name: "", address: "", ownerId: "", contact: "", email: "" });
+    setEditingSalonId(null);
+    setIsEdit(false);
+  };
 
   const handleSave = async () => {
     try {
       if (isEdit) {
-        await axios.put(`${API_BASE_URL}/${formData.salonId}`, formData);
+        await axios.put(`${API_BASE_URL}/${editingSalonId}`, formData);
       } else {
         await axios.post(API_BASE_URL, formData);
       }
@@ -52,20 +60,22 @@ const ManageSalons = () => {
   };
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${API_BASE_URL}/${id}`);
-      fetchSalons();
-    } catch (error) {
-      console.error("Error deleting salon:", error);
+    if (window.confirm("Are you sure you want to delete this salon?")) {
+      try {
+        await axios.delete(`${API_BASE_URL}/${id}`);
+        fetchSalons();
+      } catch (error) {
+        console.error("Error deleting salon:", error);
+      }
     }
   };
 
   return (
-    <Container style={{marginTop : "100px"}} className=" p-4 shadow-lg rounded bg-light">
+    <Container style={{ marginTop: "100px" }} className="p-4 shadow-lg rounded bg-light">
       <h2 className="text-center mb-4 text-primary">Salon Management Dashboard</h2>
       <Button className="mb-3 btn-success" onClick={() => handleShow(null)}>Add Salon</Button>
       <Table striped bordered hover responsive className="table-sm text-center">
-        <thead  className="bg-dark text-white">
+        <thead className="bg-dark text-white">
           <tr>
             <th>Name</th>
             <th>Address</th>
@@ -97,7 +107,7 @@ const ManageSalons = () => {
           <Modal.Title>{isEdit ? "Edit Salon" : "Add Salon"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form style={{marginTop :"100px"}}>
+          <Form>
             <Form.Group className="mb-3">
               <Form.Label>Salon Name</Form.Label>
               <Form.Control type="text" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} />
