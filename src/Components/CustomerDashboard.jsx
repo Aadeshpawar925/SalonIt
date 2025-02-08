@@ -15,6 +15,7 @@ const CustomerDashboard = () => {
         
         <Button onClick={() => navigate("/salons")}>Browse Salons</Button>
         <Button onClick={() => navigate("/my-bookings")}>My Bookings</Button>
+        <Button onClick={() => navigate("/give-feedback")}>Give Feedback</Button>
       </div>
     </Container>
   );

@@ -69,3 +69,32 @@ button:disabled {
 button:focus {
   outline: none; /* Remove the focus outline for buttons */
 }
+
+.reviews-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
+
+.review-card {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.review-card h4 {
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.review-card p {
+  margin: 2px 0;
+}
+
+.review-date {
+  font-size: 0.9em;
+  color: gray;
+}

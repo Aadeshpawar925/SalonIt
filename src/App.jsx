@@ -18,6 +18,7 @@ import CustomerDashboard from "./Components/CustomerDashboard";
 import ManageSalons from "./Components/ManageSalons";
 import ManageUsers from "./Components/ManageUsers";
 import OwnerSalons from "./Components/OwnerSalons";
+import UserFeedback from "./UserFeedback";
 
 function App() {
 
@@ -75,6 +76,7 @@ function App() {
         <Route path="/customer-dashboard" element={<CustomerDashboard />} />
         <Route path="/admin/manage-salons" element={ <ManageSalons /> } />
         <Route path="/admin/manage-users" element={ <ManageUsers />  } />
+        <Route path="/give-feedback" element = {<UserFeedback />} />
       </Routes>
       <Footer /> {/* Displayed on all pages */}
     </>
