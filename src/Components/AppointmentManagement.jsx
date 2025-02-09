@@ -52,6 +52,7 @@ const AppointmentManagement = () => {
             clientName: user ? `${user.firstName} ${user.lastName}` : "Unknown",
             serviceName: service ? service.serviceName : "Unknown Service",
             formattedDate: new Date(app.appointmentDate).toLocaleString(),
+            status : app.status
           };
         });
 
@@ -112,6 +113,7 @@ const AppointmentManagement = () => {
                         <th>Date</th>
                         <th>Client Name</th>
                         <th>Service</th>
+                        <th>Status</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -121,6 +123,7 @@ const AppointmentManagement = () => {
                           <td>{appointment.formattedDate}</td>
                           <td>{appointment.clientName}</td>
                           <td>{appointment.serviceName}</td>
+                          <td>{appointment.status}</td>
                           <td>
                             <button
                               className="btn btn-danger btn-sm"
