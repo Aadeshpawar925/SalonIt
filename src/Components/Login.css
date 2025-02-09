@@ -1,227 +1,106 @@
-/* Original CSS (untouched) */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
 
 .login-container {
-  margin-top: 100px ;
-  margin-left:auto;
-  margin-right:auto;
-  width: 500px;
-  animation: fadeIn 1.5s ease-in-out;
+  margin-top: 100px;
   display: flex;
-  flex-direction: column;
-  
- 
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
 .login-box {
-  background: #ffffff;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  padding: 30px;
   position: relative;
-  text-align: center;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  z-index: 1;
+  max-width: 430px;
+  width: 100%;
+  background: #fff;
+  padding: 34px;
+  border-radius: 6px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .login-box h1 {
-  font-size: 1.8rem;
-  /* font-weight: bold; */
-  color: #b0d8ff;
-  margin-bottom: 15px;
-  font-family: "Faculty Glyphic", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.login-box p {
-  color: #50c9ee;
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-  font-family: "Faculty Glyphic", sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.login-name{
-  font-family: "Srisakdi", system-ui;
-  font-weight: 800;
-  font-style: normal;
-}
-
-.role-button, .signup-button {
-  width: 45%;
-  padding: 10px;
-  font-size: 0.9rem;
-  border-radius: 20px;
-  border: none;
-  font-weight: bold;
   position: relative;
-  transition: all 0.3s ease;
-  animation: none;
-  font-family: "Poppins", serif;
-  font-weight: 400;
-  font-style: normal;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
 }
 
-.role-button:hover, .signup-button:hover {
-  background: linear-gradient(to right, #6a11cb, #2575fc);
-  color: white;
-  box-shadow: 0 0 15px rgba(106, 17, 203, 0.6);
-  animation: pulse 1.5s infinite;
-}
-
-.login-box::before {
-  content: "";
+.login-box h1::before {
+  content: '';
   position: absolute;
-  width: 200%;
-  height: 200%;
-  top: -100%;
-  left: -100%;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 50%;
-  animation: rotateGlow 5s linear infinite;
-  z-index: -1;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  height: 3px;
+  width: 28px;
+  border-radius: 12px;
+  background: #4070f4;
 }
 
-/* Input Field Styles */
-.login-box input[type="email"],
-.login-box input[type="password"] {
+.login-box form {
+  margin-top: 30px;
+}
+
+.login-box .input-box {
+  margin: 18px 0;
+}
+
+.login-box input {
+  height: 52px;
   width: 100%;
-  border: none;
-  border-bottom: 1px solid black; /* Default border */
-  border-radius: 5px;
   outline: none;
-  font-size: 0.8rem;
-  font-family: "Poppins", serif;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  animation: slideIn 1s ease;
+  padding: 0 15px;
+  font-size: 17px;
+  font-weight: 400;
+  color: #333;
+  border: 1.5px solid #C7BEBE;
+  border-bottom-width: 2.5px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
 }
 
-/* Focus State (When clicking inside) */
-.login-box input[type="email"]:focus,
-.login-box input[type="password"]:focus {
-  border-color: #28a745; /* Green border on focus */
+.login-box input:focus,
+.login-box input:valid {
+  border-color: #4070f4;
 }
 
-/* Blur State (When leaving the input field) */
-.login-box input[type="email"]:blur,
-.login-box input[type="password"]:blur {
-  border-color: black; /* Reset to black border */
-}
-
-/* Additional CSS for new fields */
-
-/* Container for inline fields */
-.inline-fields {
+.login-box .policy {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
 }
 
-.inline-fields .form-control {
-  width: 48%;
+.login-box .policy input {
+  margin-right: 10px;
+}
+
+.login-box .policy h3 {
+  color: #707070;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-box .signup-button {
+  margin-top: 20px;
+  color: #fff;
+  letter-spacing: 1px;
   border: none;
-  border-bottom: 1px solid black; /* Default border */
-  border-radius: 5px;
-  outline: none;
-  font-size: 0.8rem;
-  font-family: "Poppins", serif;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  animation: slideIn 1s ease;
+  background: #4070f4;
+  cursor: pointer;
+  padding: 15px 0;
 }
 
-.inline-fields .form-control:focus {
-  border-color: #28a745; /* Green border on focus */
+.login-box .signup-button:hover {
+  background: #0e4bf1;
 }
 
-.inline-fields .form-control:blur {
-  border-color: black; /* Reset to black border */
+.login-box .text-center a {
+  color: #4070f4;
+  text-decoration: none;
 }
 
-/* Dropdown Styles */
-.login-box select {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid black; /* Default border */
-  border-radius: 5px;
-  outline: none;
-  font-size: 0.8rem;
-  font-family: "Poppins", serif;
-  padding: 5px 10px;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  animation: slideIn 1s ease;
-}
-
-.login-box select:focus {
-  border-color: #28a745; /* Green border on focus */
-  background-color: #e9ffe9;
-}
-
-/* Contact Field */
-.login-box input[type="text"] {
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid black; /* Default border */
-  border-radius: 5px;
-  outline: none;
-  font-size: 0.8rem;
-  font-family: "Poppins", serif;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-  animation: slideIn 1s ease;
-}
-
-.login-box input[type="text"]:focus {
-  border-color: #28a745; /* Green border on focus */
-}
-
-/* Animations for new fields */
-@keyframes slideIn {
-  from {
-    transform: translateX(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes rotateGlow {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(106, 17, 203, 0.6);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
-  }
+.login-box .text-center a:hover {
+  text-decoration: underline;
 }

@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate , useParams } from "react-router-dom";
+import axios from "axios";
 
-const PaymentComponent = ({ setPaymentId }) => {
+const PaymentComponent = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const amount = location.state?.amount || 0; // Default to 0 if no amount is passed
+    const { salonId } = useParams();
+    const amount = location.state?.amount || 0; // 🔹 Now correctly fetching amount from Booking
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const appointmentData = location.state?.appointmentData;
+    const selectedServices = location.state?.services ;
+
 
     useEffect(() => {
         const loadRazorpayScript = () => {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 if (window.Razorpay) {
                     resolve();
                     return;
                 }
-
-                const script = document.createElement('script');
-                script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-                script.onload = () => resolve();
-                script.onerror = () => {
-                    setError("Failed to load Razorpay SDK. Please try again later.");
-                };
+                const script = document.createElement("script");
+                script.src = "https://checkout.razorpay.com/v1/checkout.js";
+                script.onload = resolve;
+                script.onerror = () => reject("Failed to load Razorpay SDK.");
                 document.body.appendChild(script);
             });
         };
@@ -30,44 +32,71 @@ const PaymentComponent = ({ setPaymentId }) => {
             setError(null);
             setIsLoading(true);
 
+            if (amount <= 0) {
+                setError("Invalid amount. Please try again.");
+                setIsLoading(false);
+                return;
+            }
+
             try {
                 await loadRazorpayScript();
-
                 const options = {
-                    key: 'rzp_test_W1Q8BUqjEuknLa', // Replace with your Razorpay Key ID
-                    amount: amount * 100, // Amount in paise (Razorpay expects amount in paise)
-                    currency: 'INR',
-                    name: 'SaloonIT',
-                    description: 'Payment For Hair Saloon Services',
-                    handler: function (response) {
-                        setPaymentId(response.razorpay_payment_id); // Set the payment ID
-                        console.log('Payment successful:', response);
+                    key: "rzp_test_gXvTF8VHcbbdzp",
+                    amount: amount * 100,
+                    currency: "INR",
+                    name: "SaloonIT",
+                    description: "Payment for Salon Services",
+                    handler:  async function  (response) {
+
+                       console.log(response)
                         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
                         
-                        // Redirect to success page and pass paymentId in state
-                        navigate('/payment-success', {
-                            state: { paymentId: response.razorpay_payment_id }
-                        });
+                        try {
+                            const resp = await axios.post("https://localhost:44371/api/Payments", {
+                                UserId : JSON.parse(localStorage.getItem("user")).userId,
+                                SalonId : salonId,
+                                Appointments : appointmentData.map((a) => ({...a  ,price: selectedServices.find((s)=>s.serviceId === a.serviceId)?.cost})),
+                                Method:  "Test"
+                              });
+                              
+                                try {
+                                    const appointmentIds = appointmentData.map(a => a.appointmentId); 
+                            
+                                    const res = await axios.patch("https://localhost:44371/api/Appointments", appointmentIds);
+                                    
+                                    console.log("Appointments confirmed:", res.data);
+                                } catch (error) {
+                                    console.error("Error confirming appointments:", error);
+                                }
+                            
+                            
+
+    
+                            navigate(`/salons/${salonId}/booking/payment/payment-success`, {
+                                state: { paymentId: response.razorpay_payment_id },
+                            });
+                        } catch (error) {
+                            alert("Something went wrong.")
+                        }
                     },
                     prefill: {
-                        name: 'Customer Name',
-                        email: 'customer@example.com',
-                        contact: '9999999999',
+                        name: "Customer Name",
+                        email: "customer@example.com",
+                        contact: "9999999999",
                     },
-                    theme: {
-                        color: '#F37254',
-                    },
+                    theme: { color: "#F37254" },
                 };
 
                 const razorpay = new window.Razorpay(options);
-                razorpay.on('payment.failed', (response) => {
-                    console.error('Payment failed:', response.error);
-                    setError("Payment failed. Please try again.");
+                razorpay.on("payment.failed", (response) => {
+                    console.error("Payment failed:", response.error);
+                    setError(`Payment failed: ${response.error.description || "An unexpected error occurred."}`);
                 });
-
+                // razorpay.on("payment.success" , async (response) =>{
+                    
+                // })
                 razorpay.open();
             } catch (err) {
-                console.error("Error in payment process:", err);
                 setError("An unexpected error occurred. Please try again.");
             } finally {
                 setIsLoading(false);
@@ -75,10 +104,10 @@ const PaymentComponent = ({ setPaymentId }) => {
         };
 
         handlePayment();
-    }, [amount, navigate, setPaymentId]);
+    }, [amount, navigate, ]);
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <div style={{ textAlign: "center", marginTop: "50px" }}>
             {isLoading ? (
                 <div>
                     <h2>Processing Payment...</h2>
@@ -87,9 +116,12 @@ const PaymentComponent = ({ setPaymentId }) => {
             ) : (
                 <div>
                     {error ? (
-                        <div style={{ color: 'red', marginTop: '20px' }}>
+                        <div style={{ color: "red", marginTop: "100px" }}>
                             <h3>Error</h3>
                             <p>{error}</p>
+                            <button onClick={() => navigate("/")} style={{ padding: "10px 20px", background: "#F37254", color: "#fff", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+                                Go Back
+                            </button>
                         </div>
                     ) : (
                         <h2>Payment initialized. Follow the Razorpay popup to complete your payment.</h2>

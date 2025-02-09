@@ -12,16 +12,29 @@ import SalonDetails from "./Components/SalonDetails";
 import Booking from "./Components/Booking";
 import PaymentComponent from "./Components/PaymentComponent";
 import PaymentSuccessPage from "./Components/PaymentSuccessPage";
+import AdminDashboard from "./Components/AdminDashboard";
+import SalonDashboard from "./Components/SalonDashboard";
+import CustomerDashboard from "./Components/CustomerDashboard";
+import ManageSalons from "./Components/ManageSalons";
+import ManageUsers from "./Components/ManageUsers";
+import OwnerSalons from "./Components/OwnerSalons";
+import UserFeedback from "./UserFeedback";
+import SalonServices from "./Components/SalonServices";
+import AppointmentManagement from "./Components/AppointmentManagement";
+import UserAppointment from "./Components/UserAppointment";
 
 function App() {
-  const [selectedServices, setSelectedServices] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [payId , setPayId] = useState("")
 
-  const handleLogin = () => {
-    localStorage.setItem("userLoggedIn", "true"); // Ensure login persists across refresh
+  // const [totalPrice, setTotalPrice] = useState(0);
+  
+
+  // const handleLogin = () => {
+  //   localStorage.setItem("userLoggedIn", "true"); // Ensure login persists across refresh
+  // };
+  const isUserLoggedIn = () => {
+    const user = localStorage.getItem("user");
+    return user && user !== "undefined" && user !== "null";
   };
-
   return (
     <>
       <Header /> {/* Displayed on all pages */}
@@ -40,31 +53,36 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
 
         {/* Salon Discovery and Details */}
-        <Route path="/discover-salons" element={<DiscoverSalons />} /> {/* Lists salons */}
+        <Route path="/salons" element={<DiscoverSalons />} />
+        
         <Route
-          path="/salons/:id"
+          path="/salons/:salonId"
           element={
             <SalonDetails
-              setSelectedServices={setSelectedServices}
-              setTotalPrice={setTotalPrice}
+            // setSelectedServices={setSelectedServices}
+            
             />
           }
-        />
+          />
+          
+        
+          <Route
+            path="/salons/:salonId/booking"
+            element={isUserLoggedIn() ? <Booking /> : <Login />}
+          />
+        <Route path="/salons/:salonId/booking/payment" element={<PaymentComponent  />} />
 
-        {/* Booking Page - Protected */}
-        <Route
-          path="/booking"
-          element={
-            localStorage.getItem("userLoggedIn") === "true" ? (
-              <Booking selectedServices={selectedServices} totalPrice={totalPrice} />
-            ) : (
-              <Login />
-            )
-          }
-        />
-        <Route path="/payment" element={<PaymentComponent setPaymentId= {setPayId} />} />
-
-         <Route path="/payment-success" element={<PaymentSuccessPage paymentId={payId} />} />
+        <Route path="/ownerSalons" element = {<OwnerSalons />} />
+        <Route path="/salonServices" element={<SalonServices />} />
+         <Route path="/salons/:salonId/booking/payment/payment-success" element={<PaymentSuccessPage />} />
+         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/salon-dashboard" element={<SalonDashboard />} />
+        <Route path ="/appointments"  element = {<AppointmentManagement />} />
+        <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+        <Route path="/my-bookings" element ={<UserAppointment />} />
+        <Route path="/admin/manage-salons" element={ <ManageSalons /> } />
+        <Route path="/admin/manage-users" element={ <ManageUsers />  } />
+        <Route path="/give-feedback" element = {<UserFeedback />} />
       </Routes>
       <Footer /> {/* Displayed on all pages */}
     </>

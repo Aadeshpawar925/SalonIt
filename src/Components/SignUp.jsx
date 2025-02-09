@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import Axios
 import { Container, Form, Button } from "react-bootstrap";
 import "./Login.css";
 
@@ -12,6 +13,7 @@ const SignUp = () => {
     password: "",
     role: "",
   });
+
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
@@ -20,6 +22,7 @@ const SignUp = () => {
     password: "",
     role: "",
   });
+
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -87,10 +90,30 @@ const SignUp = () => {
     return valid;
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (validateForm()) {
-      alert("Sign up successful! Please login.");
-      navigate("/");
+      try {
+        const response = await axios.post("https://localhost:44371/api/Users", {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          contact: formData.contact,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        });
+        
+        if (response.status === 201) {
+          alert("Sign up successful! Please login.");
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error during sign up:", error);
+        if (error.response && error.response.status === 400) {
+          alert("Email already exists or invalid data!");
+        } else {
+          alert("Something went wrong! Please try again later.");
+        }
+      }
     }
   };
 
@@ -103,8 +126,7 @@ const SignUp = () => {
   return (
     <Container className="login-container">
       <div className="login-box">
-        <h1 className="text-center mb-4">Salon Appointment</h1>
-        <p className="text-center">SIGN-UP</p>
+        <h1 className="text-center mb-4">SIGN-UP</h1>
         <Form>
           <div className="d-flex">
             <Form.Group className="mb-3 me-2 w-50">
@@ -194,7 +216,6 @@ const SignUp = () => {
               required
             >
               <option value="">Select Role</option>
-              <option value="baber">Barber</option>
               <option value="owner">Owner</option>
               <option value="customer">Customer</option>
             </Form.Control>
@@ -213,8 +234,8 @@ const SignUp = () => {
         <p className="text-center mt-4">
           <Button
             variant="link"
-            className="p-0 "
-            onClick={() => navigate("/")}
+            className="p-0"
+            onClick={() => navigate("/login")}
           >
             Already have an account? Login
           </Button>
@@ -225,5 +246,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-

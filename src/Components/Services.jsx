@@ -15,11 +15,6 @@ export default function Services() {
             imgSrc: "/img/haircut_2.jpg",
         },
         {
-            name: "Full Body Massage",
-            description: "Relax and rejuvenate with our full body massage services.",
-            imgSrc: "/img/massage_3.jpg",
-        },
-        {
             name: "Stocked Cosmetic Store",
             description: "Find all your favorite cosmetic brands in one place.",
             imgSrc: "/img/cosmetics_4.jpg",
@@ -37,32 +32,32 @@ export default function Services() {
         {
             name: "Men's Haircut",
             description: "Professional haircut tailored to your style and preference.",
-            imgSrc: "/img/mens_haircut.jpg",
+            imgSrc: "https://ghc.health/cdn/shop/articles/WhatsApp_Image_2021-12-31_at_10.17.09_AM_1_1296x.jpg?v=1640954944",
         },
         {
             name: "Beard Grooming",
             description: "Expert grooming services to keep your beard looking sharp.",
-            imgSrc: "/img/beard_grooming.jpg",
+            imgSrc: "https://media.vyaparify.com/vcards/blogs/99875/Beard-grooming.jpg",
         },
         {
             name: "Facial Treatments",
             description: "Rejuvenating facials for glowing, healthy skin.",
-            imgSrc: "/img/facial_treatments.jpg",
+            imgSrc: "https://i.pinimg.com/474x/69/15/4d/69154d1befa42db611bd6cb0fba7fd1c.jpg",
         },
         {
             name: "Waxing Services",
             description: "Smooth, hair-free skin with our professional waxing services.",
-            imgSrc: "/img/waxing_services.jpg",
+            imgSrc: "https://ghc.health/cdn/shop/articles/WhatsApp_Image_2022-02-08_at_11.25.21_AM_2.jpg?v=1644314769",
         },
         {
             name: "Pedicure & Manicure",
             description: "Complete care for your hands and feet.",
-            imgSrc: "/img/pedicure_manicure.jpg",
+            imgSrc: "https://cdn.prod.website-files.com/630f3c750051ac8f612287b7/630f3dfac4aaa11685865a0f_What%20is%20a%20pedicure.jpg",
         },
         {
             name: "Scalp Treatments",
             description: "Specialized treatments for a healthy scalp.",
-            imgSrc: "/img/scalp_treatments.jpg",
+            imgSrc: "https://sp-ao.shortpixel.ai/client/to_webp,q_lossy,ret_img,w_1000,h_667/https://eighteeneight.com/san-diego-ca/wp-content/uploads/sites/2/2023/08/Mens-Scalp-Treatment.jpg",
         },
     ];
 
