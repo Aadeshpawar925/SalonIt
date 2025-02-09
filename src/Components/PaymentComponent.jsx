@@ -41,21 +41,36 @@ const PaymentComponent = () => {
             try {
                 await loadRazorpayScript();
                 const options = {
-                    key: "rzp_test_W1Q8BUqjEuknLa",
+                    key: "rzp_test_gXvTF8VHcbbdzp",
                     amount: amount * 100,
                     currency: "INR",
                     name: "SaloonIT",
                     description: "Payment for Salon Services",
                     handler:  async function  (response) {
-                       console.log(response.data);
+
+                       console.log(response)
                         alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+                        
                         try {
                             const resp = await axios.post("https://localhost:44371/api/Payments", {
                                 UserId : JSON.parse(localStorage.getItem("user")).userId,
                                 SalonId : salonId,
-                                Appointments : appointmentData.map((a) => ({...a ,paymentMethod: "Test" ,price: selectedServices.find((s)=>s.serviceId === a.serviceId)?.cost})),
-                                
+                                Appointments : appointmentData.map((a) => ({...a  ,price: selectedServices.find((s)=>s.serviceId === a.serviceId)?.cost})),
+                                Method:  "Test"
                               });
+                              
+                                try {
+                                    const appointmentIds = appointmentData.map(a => a.appointmentId); 
+                            
+                                    const res = await axios.patch("https://localhost:44371/api/Appointments", appointmentIds);
+                                    
+                                    console.log("Appointments confirmed:", res.data);
+                                } catch (error) {
+                                    console.error("Error confirming appointments:", error);
+                                }
+                            
+                            
+
     
                             navigate(`/salons/${salonId}/booking/payment/payment-success`, {
                                 state: { paymentId: response.razorpay_payment_id },
